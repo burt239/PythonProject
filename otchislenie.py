@@ -126,12 +126,13 @@ while 1:
             window.blit(bgifpas,(0,0))
             window.blit(pygame.font.SysFont("Arial", 60).render('67', 0, (0, 0, 0), None), (150, 420))
             window.blit(bott, ((1280-360)//2, (823-270)//2))
+            pygame.display.update()
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                         xb, yb = event.pos
                         if (xb<1280//2) and (xb>1280//2-360) and (yb > 823//2-270) and (yb < 823//2):
                             cont = False
-            pygame.display.update()
+
         count -= 1
     count += 1
 
