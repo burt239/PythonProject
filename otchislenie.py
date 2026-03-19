@@ -1,7 +1,6 @@
 import pygame
 import random
 
-from pygame.examples.go_over_there import screen
 
 pygame.font.init()
 window=pygame.display.set_mode((1280,823))
@@ -15,33 +14,50 @@ count = 0
 fx = True
 fy = True
 cont = False
+oth = False
 bg=pygame.image.load('petya1.jpg')
 pashalko=pygame.image.load('239.png')
 belka=pygame.image.load('otch.png')
 kol = pygame.image.load('kol tozhe ozenka.png')
 bgifpas = pygame.image.load('фон если пасхалко.png')
+bgifoth = pygame.image.load('bg if oth.png')
 bott = pygame.image.load('continue bottom.png')
+bottagain = pygame.image.load('еще раз.png')
+m = pygame.image.load('mouse.png')
+smeme = pygame.image.load('closedmeme.png')
+pic67 = pygame.image.load('size_m.jpg')
+pic52 = pygame.image.load('52.jpg')
+pic239 = pygame.image.load('239 meme.jpg')
+meme52cond = False
+meme67cond = False
+meme239cond = False
+abscount = 0
+speed = 0.5
 
 k = random.randint(0, 700)
-speed = 0.5
+
 while 1:
     window.blit(bg,(0,0))
-    window.blit(pygame.font.SysFont("Arial",100).render('очки: '+str(count),0,(0,0,0),None),(10,600))
+    window.blit(pygame.font.SysFont("Arial",100).render('очки: '+str(count),0,(255,255,255),None),(10,600))
+    if abs(count) > 239:
+        abscount = 239
+    else:
+        abscount = abs(count)
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
             if event.key == pygame.K_LEFT:
-                x=x-20
+                x=x-20-abscount
 
             if event.key == pygame.K_RIGHT:
-                x=x+20
+                x=x+20+abscount
 
             if event.key == pygame.K_DOWN:
-                y=y+20
+                y=y+20+abscount
 
             if event.key == pygame.K_UP:
-                y=y-20
+                y=y-20-abscount
 
 
 
@@ -74,6 +90,9 @@ while 1:
     window.blit(belka, (x, y))
     window.blit(belka, (x1, y1))
 
+    if count>=0:
+        speed = 0.5 + count // 10
+
     if fx:
         xkol=xkol+(speed)
         if xkol>=1240-32:
@@ -102,6 +121,7 @@ while 1:
 
     if (pygame.mask.from_surface(pashalko).overlap(pygame.mask.from_surface(belka), ( x - x2, y-y2))) or (pygame.mask.from_surface(pashalko).overlap(pygame.mask.from_surface(belka), ( x1 - x2, y1-y2))):
         count += 1
+
         y2 = random.randint(0, 700 - 150)
         x2 = random.randint(0, 1240 - 210)
 
@@ -111,9 +131,82 @@ while 1:
         ykol = random.randint(0, 700 - 76)
         xkol = random.randint(0, 1240 - 32)
 
-    if count == 1:
+    if count == 52 and meme52cond == False:
         cont = True
         while cont:
+
+            fx = True
+            fy = True
+            window.blit(bgifpas,(0,0))
+            window.blit(pic52, (100, 400))
+            window.blit(smeme, ((1280 - 100) // 2, 400))
+            window.blit(smeme, (1080, 400))
+            window.blit(bott, ((1280-360)//2, 500))
+            pygame.display.update()
+            for event in pygame.event.get():
+                xb, yb = pygame.mouse.get_pos()
+
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    xb, yb = event.pos
+                    window.blit(m,(xb,yb))
+
+                    if pygame.mask.from_surface(m).overlap(pygame.mask.from_surface(bott), ((1280-360)//2 - xb, 500 - yb)):
+                            cont = False
+
+        meme52cond = True
+
+    if count == 67 and meme67cond == False:
+        cont = True
+        while cont:
+
+            fx = True
+            fy = True
+            window.blit(bgifpas,(0,0))
+            window.blit(pic52, (100, 400))
+            window.blit(pic67, ((1280 - 100) // 2, 400))
+            window.blit(smeme, (1080, 400))
+            window.blit(bott, ((1280-360)//2, 500))
+            pygame.display.update()
+            for event in pygame.event.get():
+                xb, yb = pygame.mouse.get_pos()
+
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    xb, yb = event.pos
+                    window.blit(m,(xb,yb))
+
+                    if pygame.mask.from_surface(m).overlap(pygame.mask.from_surface(bott), ((1280-360)//2 - xb, 500 - yb)):
+                            cont = False
+
+        meme67cond = True
+
+
+    if count == 239 and meme239cond == False:
+        cont = True
+        while cont:
+
+            fx = True
+            fy = True
+            window.blit(bgifpas,(0,0))
+            window.blit(pic52, (100, 400))
+            window.blit(pic67, ((1280 - 100) // 2, 400))
+            window.blit(pic239, (1080, 400))
+            window.blit(bott, ((1280-360)//2, 500))
+            pygame.display.update()
+            for event in pygame.event.get():
+                xb, yb = pygame.mouse.get_pos()
+
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    xb, yb = event.pos
+                    window.blit(m,(xb,yb))
+
+                    if pygame.mask.from_surface(m).overlap(pygame.mask.from_surface(bott), ((1280-360)//2 - xb, 500 - yb)):
+                            cont = False
+
+        meme239cond = True
+
+    if count <= -2390:
+        oth = True
+        while oth:
             x = 50
             y = 50
             x2 = (1240 - 150) // 2
@@ -123,18 +216,19 @@ while 1:
             count = 0
             fx = True
             fy = True
-            window.blit(bgifpas,(0,0))
-            window.blit(pygame.font.SysFont("Arial", 60).render('67', 0, (0, 0, 0), None), (150, 420))
-            window.blit(bott, ((1280-360)//2, (823-270)//2))
+            window.blit(bgifoth,(0,0))
+            window.blit(bottagain, ((1280-360)//2, 500))
             pygame.display.update()
             for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                        xb, yb = event.pos
-                        if (xb<1280//2) and (xb>1280//2-360) and (yb > 823//2-270) and (yb < 823//2):
-                            cont = False
+                xb, yb = pygame.mouse.get_pos()
 
-        count -= 1
-    count += 1
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    xb, yb = event.pos
+                    window.blit(m,(xb,yb))
+
+                    if pygame.mask.from_surface(m).overlap(pygame.mask.from_surface(bottagain), ((1280-360)//2 - xb, 500 - yb)):
+                            oth = False
+
 
     pygame.display.update()
 
