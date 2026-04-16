@@ -5,7 +5,7 @@
         yv = 125
         xl = 213
         yn = 176
-
+#hhgjyfjyf
         window.blit(bgchoose, (0, 0))
         pygame.display.update()
         for event in pygame.event.get():
